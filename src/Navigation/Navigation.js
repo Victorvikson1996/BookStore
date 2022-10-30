@@ -14,7 +14,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={ScreenOptions}>
-        <Stack.Screen name="SPLASH" component={OnBoardingScreen} />
+        {/* <Stack.Screen name="SPLASH" component={OnBoardingScreen} /> */}
         <Stack.Screen name="HOME" component={HomeScreen} />
         <Stack.Screen name="DETAIL" component={DetailsScreen} />
       </Stack.Navigator>
