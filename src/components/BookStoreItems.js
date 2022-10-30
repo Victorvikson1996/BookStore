@@ -16,9 +16,9 @@ const BookStoreItems = ({ item }) => {
 
   const _goToDetails = () => {
     return navigation.navigate("DETAIL", {
-      uri: item.imgUrl,
+      image: item.imgUrl,
       des: item.description,
-      price: item.author,
+      title: item.title,
       publisher: item.publisher,
       author: item.author,
       pages: item.pages,

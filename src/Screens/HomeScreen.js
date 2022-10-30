@@ -16,8 +16,7 @@ import { widthToDp, heightToDp } from "rn-responsive-screen";
 import { BookStoreItems } from "../components";
 import { COLORS } from "../Utils/COLORS";
 import { StatusBar } from "expo-status-bar";
-
-const API_URI = "https://fudap-books-api.herokuapp.com/books/";
+import { API_URI } from "../Utils/Config";
 
 const { width, height } = Dimensions.get("screen");
 const HomeScreen = () => {
@@ -25,21 +24,7 @@ const HomeScreen = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-
-  //   const getBooks = () => fetch(API_URI).then();
-
-  const getBooks = async () => {
-    try {
-      const response = await fetch(API_URI);
-      const json = await response.json();
-      setData(json, "books");
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [queryData, setQueryData] = useState([]);
 
   const fetchBooks = () => {
     return fetch(API_URI)
@@ -52,6 +37,7 @@ const HomeScreen = () => {
       .then((books) => {
         setData(books);
         // console.log(books);
+        setQueryData(books);
       })
       .catch((error) => {
         console.log("Error Fetching data", error);
@@ -60,6 +46,23 @@ const HomeScreen = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const handleSearch = (text) => {
+    if (text) {
+      const newData = data.filter(function (item) {
+        const itemData = item.title
+          ? item.title.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setQueryData(newData);
+      setSearch(text);
+    } else {
+      setQueryData(data);
+      setSearch(text);
+    }
   };
 
   useEffect(() => {
@@ -74,6 +77,7 @@ const HomeScreen = () => {
           alignItems: "center",
           flex: 1,
           top: 40,
+          justifyContent: "center",
         }}
       >
         <ActivityIndicator
@@ -99,16 +103,16 @@ const HomeScreen = () => {
       <Headers title="Book Store" />
       <View style={styles.inputContainer}>
         <Input
-          placeholder="Enter Book Name"
+          placeholder="Search"
           style={styles.textInput}
           value={search}
-          onChangeText={(text) => setSearch(text)}
+          onChangeText={(text) => handleSearch(text)}
         />
       </View>
       <View style={styles.products}>
         <View style={{ marginTop: 10, marginBottom: 20 }}>
           <FlatList
-            data={data}
+            data={queryData}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             keyExtractor={(item, index) => item.id}
             numColumns={2}
