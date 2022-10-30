@@ -14,23 +14,33 @@ import { useNavigation } from "@react-navigation/native";
 const BookStoreItems = ({ item }) => {
   const navigation = useNavigation();
 
+  const _goToDetails = () => {
+    return navigation.navigate("DETAIL", {
+      uri: item.imgUrl,
+      des: item.description,
+      price: item.author,
+      publisher: item.publisher,
+      author: item.author,
+      pages: item.pages,
+      ISBN: item.isbn,
+      date: item.published,
+      id: item.id,
+      subtitle: item.subtitle,
+    });
+  };
+
   return (
     <Pressable
-      onPress={() =>
-        navigation.navigate("DETAIL", {
-          uri: item.image,
-          des: item.description,
-          price: item.price,
-        })
-      }
+      onPress={_goToDetails}
       style={styles.container}
       key={item.id}
+      testID="book"
     >
       <Image source={{ uri: item.imgUrl }} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.category}>{item.category}</Text>
+      <Text style={styles.category}>{item.author}</Text>
       <View style={styles.priceContainer}>
-        <Text>${item.price}</Text>
+        <Text>{item.publisher}</Text>
       </View>
     </Pressable>
   );

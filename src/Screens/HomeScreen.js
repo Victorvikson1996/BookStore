@@ -15,6 +15,7 @@ import { Headers, Input } from "../components";
 import { widthToDp, heightToDp } from "rn-responsive-screen";
 import { BookStoreItems } from "../components";
 import { COLORS } from "../Utils/COLORS";
+import { StatusBar } from "expo-status-bar";
 
 const API_URI = "https://fudap-books-api.herokuapp.com/books/";
 
@@ -50,7 +51,7 @@ const HomeScreen = () => {
       })
       .then((books) => {
         setData(books);
-        console.log(books);
+        // console.log(books);
       })
       .catch((error) => {
         console.log("Error Fetching data", error);
@@ -67,8 +68,21 @@ const HomeScreen = () => {
 
   if (isLoading)
     return (
-      <View style={{ alignContent: "center", alignItems: "center", flex: 1 }}>
-        <Text>Looading...</Text>
+      <View
+        style={{
+          alignContent: "center",
+          alignItems: "center",
+          flex: 1,
+          top: 40,
+        }}
+      >
+        <ActivityIndicator
+          size="large"
+          testId="loading"
+          accessibilityLabel="App is loading books"
+          color={COLORS.yellow}
+          testID="loading"
+        />
       </View>
     );
 
@@ -81,25 +95,27 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar />
       <Headers title="Book Store" />
-
-      {/* <View style={styles.inputContainer}>
+      <View style={styles.inputContainer}>
         <Input
           placeholder="Enter Book Name"
           style={styles.textInput}
           value={search}
           onChangeText={(text) => setSearch(text)}
         />
-      </View> */}
-
+      </View>
       <View style={styles.products}>
-        <View style={{ marginTop: 1, marginBottom: 20, marginHorizontal: 20 }}>
+        <View style={{ marginTop: 10, marginBottom: 20 }}>
           <FlatList
             data={data}
-            // contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+            contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             keyExtractor={(item, index) => item.id}
             numColumns={2}
-            renderItem={({ item }) => <BookStoreItems item={item} />}
+            renderItem={({ item }) => (
+              <BookStoreItems item={item} accessibilityLabel="books" />
+            )}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       </View>
@@ -122,11 +138,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   products: {
-    // flex: 1,
+    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     width: widthToDp(100),
-    paddingHorizontal: widthToDp(1),
+    paddingHorizontal: widthToDp(6),
     justifyContent: "space-between",
   },
   textInput: {
