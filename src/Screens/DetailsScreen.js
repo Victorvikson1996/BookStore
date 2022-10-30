@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import React from "react";
 import { COLORS } from "../Utils/COLORS";
 
 const DetailsScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text>DetailsScreen</Text>
+    <View style={{ flex: 1, alignItems: "center", alignContent: "center" }}>
+      <Button title="Hello" onPress={() => navigation.goBack()} />
     </View>
   );
 };
