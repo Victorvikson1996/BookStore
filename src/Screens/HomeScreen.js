@@ -120,6 +120,7 @@ const HomeScreen = () => {
               <BookStoreItems item={item} accessibilityLabel="books" />
             )}
             showsVerticalScrollIndicator={false}
+            accessibilityLabel="books"
           />
         </View>
       </View>
@@ -145,9 +146,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    width: widthToDp(100),
-    paddingHorizontal: widthToDp(6),
+
     justifyContent: "space-between",
+    // width: widthToDp(100),
+    // paddingHorizontal: widthToDp(6),
   },
   textInput: {
     backgroundColor: COLORS.white,
