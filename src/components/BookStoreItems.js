@@ -35,6 +35,7 @@ const BookStoreItems = ({ item }) => {
       style={styles.container}
       key={item.id}
       testID="book"
+      accessibilityLabel="books"
     >
       <Image source={{ uri: item.imgUrl }} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
